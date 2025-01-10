@@ -1,13 +1,11 @@
 Use streamlit to add UI interface for Zerox OCR.
+
 Usage:
 ```
 streamlit run app.py
 ```
-## Zerox OCR
 
-<a href="https://discord.gg/smg2QfwtJ6">
-  <img src="https://github.com/user-attachments/assets/cccc0e9a-e3b2-425e-9b54-e5024681b129" alt="Join us on Discord" width="200px">
-</a>
+## Zerox OCR
 
 A dead simple way of OCR-ing a document for AI ingestion. Documents are meant to be a visual representation after all. With weird layouts, tables, charts, etc. The vision models just make sense!
 
@@ -26,130 +24,6 @@ Zerox is available as both a Node and Python package.
 
 - [Node Readme](#node-zerox) - [npm package](https://www.npmjs.com/package/zerox)
 - [Python Readme](#python-zerox) - [pip package](https://pypi.org/project/py-zerox/)
-
-## Node Zerox
-
-```sh
-npm install zerox
-```
-
-Zerox uses `graphicsmagick` and `ghostscript` for the pdf => image processing step. These should be pulled automatically, but you may need to manually install.
-
-On linux use:
-
-```
-sudo apt-get update
-sudo apt-get install -y graphicsmagick
-```
-
-## Usage
-
-**With file URL**
-
-```ts
-import { zerox } from "zerox";
-
-const result = await zerox({
-  filePath: "https://omni-demo-data.s3.amazonaws.com/test/cs101.pdf",
-  openaiAPIKey: process.env.OPENAI_API_KEY,
-});
-```
-
-**From local path**
-
-```ts
-import path from "path";
-import { zerox } from "zerox";
-
-const result = await zerox({
-  filePath: path.resolve(__dirname, "./cs101.pdf"),
-  openaiAPIKey: process.env.OPENAI_API_KEY,
-});
-```
-
-### Options
-
-```ts
-const result = await zerox({
-  // Required
-  filePath: "path/to/file",
-  openaiAPIKey: process.env.OPENAI_API_KEY,
-
-  // Optional
-  cleanup: true, // Clear images from tmp after run.
-  concurrency: 10, // Number of pages to run at a time.
-  correctOrientation: true, // True by default, attempts to identify and correct page orientation.
-  errorMode: ErrorMode.IGNORE, // ErrorMode.THROW or ErrorMode.IGNORE, defaults to ErrorMode.IGNORE.
-  maintainFormat: false, // Slower but helps maintain consistent formatting.
-  maxRetries: 1, // Number of retries to attempt on a failed page, defaults to 1.
-  maxTesseractWorkers: -1, // Maximum number of tesseract workers. Zerox will start with a lower number and only reach maxTesseractWorkers if needed.
-  model: "gpt-4o-mini", // Model to use (gpt-4o-mini or gpt-4o).
-  onPostProcess: async ({ page, progressSummary }) => Promise<void>, // Callback function to run after each page is processed.
-  onPreProcess: async ({ imagePath, pageNumber }) => Promise<void>, // Callback function to run before each page is processed.
-  outputDir: undefined, // Save combined result.md to a file.
-  pagesToConvertAsImages: -1, // Page numbers to convert to image as array (e.g. `[1, 2, 3]`) or a number (e.g. `1`). Set to -1 to convert all pages.
-  tempDir: "/os/tmp", // Directory to use for temporary files (default: system temp directory).
-  trimEdges: true, // True by default, trims pixels from all edges that contain values similar to the given background colour, which defaults to that of the top-left pixel.
-});
-```
-
-The `maintainFormat` option trys to return the markdown in a consistent format by passing the output of a prior page in as additional context for the next page. This requires the requests to run synchronously, so it's a lot slower. But valuable if your documents have a lot of tabular data, or frequently have tables that cross pages.
-
-```
-Request #1 => page_1_image
-Request #2 => page_1_markdown + page_2_image
-Request #3 => page_2_markdown + page_3_image
-```
-
-### Example Output
-
-```js
-{
-  completionTime: 10038,
-  fileName: 'invoice_36258',
-  inputTokens: 25543,
-  outputTokens: 210,
-  pages: [
-    {
-      content: '# INVOICE # 36258\n' +
-        '**Date:** Mar 06 2012  \n' +
-        '**Ship Mode:** First Class  \n' +
-        '**Balance Due:** $50.10  \n' +
-        '## Bill To:\n' +
-        'Aaron Bergman  \n' +
-        '98103, Seattle,  \n' +
-        'Washington, United States  \n' +
-        '## Ship To:\n' +
-        'Aaron Bergman  \n' +
-        '98103, Seattle,  \n' +
-        'Washington, United States  \n' +
-        '\n' +
-        '| Item                                       | Quantity | Rate   | Amount  |\n' +
-        '|--------------------------------------------|----------|--------|---------|\n' +
-        "| Global Push Button Manager's Chair, Indigo | 1        | $48.71 | $48.71  |\n" +
-        '| Chairs, Furniture, FUR-CH-4421             |          |        |         |\n' +
-        '\n' +
-        '**Subtotal:** $48.71  \n' +
-        '**Discount (20%):** $9.74  \n' +
-        '**Shipping:** $11.13  \n' +
-        '**Total:** $50.10  \n' +
-        '---\n' +
-        '**Notes:**  \n' +
-        'Thanks for your business!  \n' +
-        '**Terms:**  \n' +
-        'Order ID : CA-2012-AB10015140-40974  ',
-      page: 1,
-      contentLength: 747,
-      status: 'SUCCESS',
-    }
-  ],
-  summary: {
-    failedPages: 0,
-    successfulPages: 1,
-    totalPages: 1,
-  },
-}
-```
 
 ## Python Zerox
 
@@ -387,6 +261,7 @@ We use a combination of `libreoffice` and `graphicsmagick` to do document => ima
 ## Credits
 
 - [Litellm](https://github.com/BerriAI/litellm): <https://github.com/BerriAI/litellm> | This powers our python sdk to support all popular vision models from different providers.
+- [Streamlit](https://github.com/streamlit/streamlit): <https://github.com/streamlit/streamlit> | Streamlit — A faster way to build and share data apps.
 
 ### License
 
