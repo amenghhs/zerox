@@ -1,5 +1,8 @@
-![Hero Image](./examples/heroImage.png)
-
+Use streamlit to add UI interface for Zerox OCR.
+Usage:
+```
+streamlit run app.py
+```
 ## Zerox OCR
 
 <a href="https://discord.gg/smg2QfwtJ6">
