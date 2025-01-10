@@ -1,5 +1,7 @@
 Use streamlit to add UI interface for Zerox OCR.
 
+![alt text](https://github.com/amenghhs/zerox-streamlit/blob/main/image.png)
+
 Usage:
 ```
 streamlit run app.py
